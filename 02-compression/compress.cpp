@@ -86,7 +86,6 @@ std::string compress(std::vector<std::string> const &words, codes &c) {
   std::string filename("compression_conv.txt");
   std::string res;
   std::ofstream file(filename.c_str(),std::ios::in);
-  //file.open(filename);
   if(file){
     for(size_t i=0;i<words.size();i++){
     std::string s = c[words[i]];
@@ -101,8 +100,23 @@ std::string compress(std::vector<std::string> const &words, codes &c) {
   return res;
 }
 
-codes shorten(codes const &c) {
+//codes 
+void shorten(codes const &c) {
   // A FAIRE
+  codes new_code;
+  auto str_replace = c.begin()->second;
+  std::cout << ++c.begin()->second << str_replace.size() << str_replace;
+  for(size_t i=0;i<str_replace.size();i++){
+    if(str_replace[i] == '0'){
+      str_replace[i] = 'a';
+    }
+    else{
+      str_replace[i] = 'b';
+    }
+  }
+  std::cout << str_replace.size() << str_replace;
+  new_code.insert({c.begin()->first,str_replace});
+  //return new_code;
 }
 
 // A NE PAS DEPLACER
@@ -113,10 +127,15 @@ int main() {
   std::vector<std::string> v=load("1984.txt");
   std::cout << v.size();
   occs map_count = count(v);
+  codes crea = create(map_count);  
+  //auto comp_str = compress(v,crea); //On obtient un fichier de même taille que celui de départ avec les mots remplacés par leur code en 0 et 1
+  //std::cout << comp_str << "\n"; 
+  shorten(crea);
+  //codes crea_ab = shorten(crea);
+  //auto comp_str_ab = compress(v,crea_ab);
+  //std::cout << comp_str_ab << "\n"; 
   // A NE PAS EFFACER
   //run_tests();
-  codes crea = create(map_count);
-  auto comp_str = compress(v,crea);
-  std::cout << comp_str;
+  
   return 0;
 }
